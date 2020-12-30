@@ -88,6 +88,22 @@ namespace AnimeLibraryInfo
                         size += info.Length;
                     }
                 }
+                //order episodes by number
+                //this is tricky but not that hard to do
+                string[] remove = { "144p", "240p", "360p", "480p", "720p", "1080p", "1440p", "2160p", "mp4" };
+                SortedDictionary<int, AnimeEpisode> episodes2 = new SortedDictionary<int, AnimeEpisode>();
+                foreach (AnimeEpisode e in episodes)
+                {
+                    string name = e.EpisodePath.Name;
+                    foreach (string s in remove)
+                    {
+                        name = name.Replace(s, "");
+                    }
+                    episodes2.Add(int.Parse(String.Join("", name.Where(char.IsDigit))), e);
+                }
+                episodes.Clear();
+                episodes.AddRange(episodes2.Values);
+
                 Seasons.Add(new AnimeSeason()
                 {
                     Episodes = episodes,

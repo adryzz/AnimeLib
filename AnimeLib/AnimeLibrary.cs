@@ -15,6 +15,10 @@ namespace AnimeLib
 
         public long LibrarySize = 0;
 
+        public AnimeLibrary()
+        {
+
+        }
 
         public AnimeLibrary(DirectoryInfo path, bool tryAutoGenerate)
         {

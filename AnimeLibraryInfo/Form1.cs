@@ -17,6 +17,9 @@ namespace AnimeLibraryInfo
     {
         AnimeLibrary Library;
         List<AnimeSeries> Searched = new List<AnimeSeries>();
+        AnimeSeries SelectedSeries;
+        AnimeSeason SelectedSeason;
+        AnimeEpisode SelectedEpisode;
         public Form1()
         {
             InitializeComponent();
@@ -115,15 +118,47 @@ namespace AnimeLibraryInfo
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            comboBox1.Items.Clear();
             if (listBox1.SelectedIndex >= 0)
             {
-                AnimeSeries selected = Searched[listBox1.SelectedIndex];
+                SelectedSeries = Searched[listBox1.SelectedIndex];
                 long size = 0;
-                foreach(AnimeSeason s in selected.Seasons)
+                foreach(AnimeSeason s in SelectedSeries.Seasons)
                 {
                     size += s.Size;
+                    comboBox1.Items.Add(s.SeasonPath.Name);
                 }
-                label3.Text = $"Name:{selected.Name}\r\nSeasons:{selected.Seasons.Count}\r\nSize: {Utils.BytesToString(size)}";
+                label3.Text = $"Name:{SelectedSeries.Name}\r\nSeasons:{SelectedSeries.Seasons.Count}\r\nSize: {Utils.BytesToString(size)}";
+            }
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            listBox2.Items.Clear();
+            if (comboBox1.SelectedIndex >= 0)
+            {
+                SelectedSeason = SelectedSeries.Seasons[comboBox1.SelectedIndex];
+                foreach(AnimeEpisode ep in SelectedSeason.Episodes)
+                {
+                    listBox2.Items.Add(ep.EpisodePath.Name);
+                }
+            }
+        }
+
+        private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listBox2.SelectedIndex >= 0)
+            {
+                SelectedEpisode = SelectedSeason.Episodes[listBox2.SelectedIndex];
+                label6.Text = $"Name:{SelectedEpisode.EpisodePath.Name}\r\nResolution: {SelectedEpisode.EpisodeInfo.VideoWidth}x{SelectedEpisode.EpisodeInfo.VideoHeight}\r\nFrame rate: {SelectedEpisode.EpisodeInfo.VideoFrameRate} fps\r\nBitrate: {SelectedEpisode.EpisodeInfo.VideoBitrate} kbps\r\nSize: {Utils.BytesToString(SelectedEpisode.EpisodePath.Length)}\r\nDuration: {SelectedEpisode.EpisodeInfo.Duration}\r\nDescription: {SelectedEpisode.EpisodeInfo.Description}";
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (SelectedEpisode.EpisodePath != null)
+            {
+                System.Diagnostics.Process.Start(SelectedEpisode.EpisodePath.FullName);
             }
         }
     }

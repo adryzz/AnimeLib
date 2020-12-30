@@ -39,9 +39,19 @@ namespace AnimeLibraryInfo
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.listBox2 = new System.Windows.Forms.ListBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -74,7 +84,7 @@ namespace AnimeLibraryInfo
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Location = new System.Drawing.Point(630, 27);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(262, 467);
+            this.groupBox1.Size = new System.Drawing.Size(262, 223);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Library Info";
@@ -83,7 +93,7 @@ namespace AnimeLibraryInfo
             // 
             this.label1.Location = new System.Drawing.Point(6, 20);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(250, 444);
+            this.label1.Size = new System.Drawing.Size(250, 187);
             this.label1.TabIndex = 0;
             this.label1.Text = "Anime in the library: 0\r\nTotal number of videos in the library: 0\r\nLibrary size: " +
     "0 byte";
@@ -116,6 +126,7 @@ namespace AnimeLibraryInfo
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.groupBox3);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Location = new System.Drawing.Point(234, 77);
             this.groupBox2.Name = "groupBox2";
@@ -128,15 +139,95 @@ namespace AnimeLibraryInfo
             // 
             this.label3.Location = new System.Drawing.Point(6, 16);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(378, 180);
+            this.label3.Size = new System.Drawing.Size(378, 81);
             this.label3.TabIndex = 0;
             this.label3.Text = "Name:\r\nSeasons:\r\nSize: 0 byte";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.button1);
+            this.groupBox3.Controls.Add(this.listBox2);
+            this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Controls.Add(this.comboBox1);
+            this.groupBox3.Controls.Add(this.label4);
+            this.groupBox3.Location = new System.Drawing.Point(9, 100);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(375, 314);
+            this.groupBox3.TabIndex = 1;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Episodes info";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(7, 20);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(83, 13);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Select a season";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(6, 36);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(363, 21);
+            this.comboBox1.TabIndex = 1;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(7, 60);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(50, 13);
+            this.label5.TabIndex = 2;
+            this.label5.Text = "Episodes";
+            // 
+            // listBox2
+            // 
+            this.listBox2.FormattingEnabled = true;
+            this.listBox2.Location = new System.Drawing.Point(10, 77);
+            this.listBox2.Name = "listBox2";
+            this.listBox2.Size = new System.Drawing.Size(359, 199);
+            this.listBox2.TabIndex = 3;
+            this.listBox2.SelectedIndexChanged += new System.EventHandler(this.listBox2_SelectedIndexChanged);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(10, 283);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(359, 23);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "Watch";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.label6);
+            this.groupBox4.Location = new System.Drawing.Point(630, 256);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(262, 238);
+            this.groupBox4.TabIndex = 6;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Episode Info";
+            // 
+            // label6
+            // 
+            this.label6.Location = new System.Drawing.Point(6, 16);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(250, 211);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "Name:\r\nResolution: 0x0\r\nFrame Rate: 0 fps\r\nBitrate: 0 kbps\r\nSize: 0 byte\r\nDuratio" +
+    "n:\r\nDescription:";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(904, 506);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.textBox1);
@@ -153,6 +244,9 @@ namespace AnimeLibraryInfo
             this.menuStrip1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -170,6 +264,14 @@ namespace AnimeLibraryInfo
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ListBox listBox2;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Label label6;
     }
 }
 

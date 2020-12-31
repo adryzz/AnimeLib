@@ -165,7 +165,7 @@ namespace AnimeLibraryInfo
         static Tuple<AnimeSeries, int> GenerateTree(string current, string[] names, List<AnimeSeason> seasons)
         {
             //create first subnode
-            AnimeSeries series = new AnimeSeries() { Name = current, Seasons = new List<AnimeSeason>() };
+            AnimeSeries series = new AnimeSeries() { Name = current.Replace(" Season 1", "").Replace(" season 1", "").Replace(" 1", ""), Seasons = new List<AnimeSeason>() };
 
             int max = names.Length;//this is the index of the last item processed so the one not added to the tree
 

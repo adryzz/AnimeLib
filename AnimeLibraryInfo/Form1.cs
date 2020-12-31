@@ -109,7 +109,7 @@ namespace AnimeLibraryInfo
                     listBox1.Items.Add(s.Name);
                     if (s.Name.Equals(selected))
                     {
-                        listBox1.SelectedIndex = index-1;
+                        listBox1.SelectedIndex = index;
                     }
                 }
                 index++;
@@ -129,6 +129,7 @@ namespace AnimeLibraryInfo
                     comboBox1.Items.Add(s.SeasonPath.Name);
                 }
                 label3.Text = $"Name:{SelectedSeries.Name}\r\nSeasons:{SelectedSeries.Seasons.Count}\r\nSize: {Utils.BytesToString(size)}";
+                comboBox1.SelectedIndex = 0;
             }
         }
 

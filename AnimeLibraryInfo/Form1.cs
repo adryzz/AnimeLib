@@ -144,6 +144,10 @@ namespace AnimeLibraryInfo
                     listBox2.Items.Add(ep.EpisodePath.Name);
                 }
             }
+            if (SelectedSeason.Episodes.Count != 0)
+            {
+                listBox2.SelectedIndex = 0;
+            }
         }
 
         private void listBox2_SelectedIndexChanged(object sender, EventArgs e)

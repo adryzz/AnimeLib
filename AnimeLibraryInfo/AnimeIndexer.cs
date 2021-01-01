@@ -68,7 +68,7 @@ namespace AnimeLibraryInfo
                 foreach (FileInfo i in d.EnumerateFiles())
                 {
                     listBox1.Invoke(new Log(() => { listBox1.Items.Add("Scanned " + i.FullName); listBox1.TopIndex = listBox1.Items.Count - 1; }));
-                    if (!i.Extension.Equals(".ass"))//check if it's a subtitle file
+                    if (i.Extension.Equals(".mp4") || i.Extension.Equals(".mkv"))//check if it's a video file
                     {
                         TagLib.File file = TagLib.File.Create(i.FullName);
                         TagLib.Mpeg.VideoHeader header = new TagLib.Mpeg.VideoHeader();

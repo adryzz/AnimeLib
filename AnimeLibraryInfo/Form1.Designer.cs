@@ -38,13 +38,13 @@ namespace AnimeLibraryInfo
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.listBox2 = new System.Windows.Forms.ListBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.listBox2 = new System.Windows.Forms.ListBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label6 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
@@ -75,7 +75,7 @@ namespace AnimeLibraryInfo
             // indexLibraryToolStripMenuItem
             // 
             this.indexLibraryToolStripMenuItem.Name = "indexLibraryToolStripMenuItem";
-            this.indexLibraryToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.indexLibraryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.indexLibraryToolStripMenuItem.Text = "Index library...";
             this.indexLibraryToolStripMenuItem.Click += new System.EventHandler(this.indexLibraryToolStripMenuItem_Click);
             // 
@@ -135,14 +135,6 @@ namespace AnimeLibraryInfo
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Anime info";
             // 
-            // label3
-            // 
-            this.label3.Location = new System.Drawing.Point(6, 16);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(378, 81);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Name:\r\nSeasons:\r\nSize: 0 byte";
-            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.button1);
@@ -157,32 +149,15 @@ namespace AnimeLibraryInfo
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Episodes info";
             // 
-            // label4
+            // button1
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(7, 20);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(83, 13);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "Select a season";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(6, 36);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(363, 21);
-            this.comboBox1.TabIndex = 1;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(7, 60);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(50, 13);
-            this.label5.TabIndex = 2;
-            this.label5.Text = "Episodes";
+            this.button1.Location = new System.Drawing.Point(10, 283);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(359, 23);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "Watch";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // listBox2
             // 
@@ -193,15 +168,40 @@ namespace AnimeLibraryInfo
             this.listBox2.TabIndex = 3;
             this.listBox2.SelectedIndexChanged += new System.EventHandler(this.listBox2_SelectedIndexChanged);
             // 
-            // button1
+            // label5
             // 
-            this.button1.Location = new System.Drawing.Point(10, 283);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(359, 23);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "Watch";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(7, 60);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(50, 13);
+            this.label5.TabIndex = 2;
+            this.label5.Text = "Episodes";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(6, 36);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(363, 21);
+            this.comboBox1.TabIndex = 1;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(7, 20);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(83, 13);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "Select a season";
+            // 
+            // label3
+            // 
+            this.label3.Location = new System.Drawing.Point(6, 16);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(378, 81);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Name:\r\nSeasons:\r\nSize: 0 byte";
             // 
             // groupBox4
             // 
@@ -236,6 +236,7 @@ namespace AnimeLibraryInfo
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "AnimeLibraryInfo";
             this.Load += new System.EventHandler(this.Form1_Load);

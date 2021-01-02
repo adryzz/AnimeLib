@@ -109,7 +109,7 @@ namespace AnimeLibraryInfo
                     listBox1.Items.Add(s.Name);
                     if (s.Name.Equals(selected))
                     {
-                        listBox1.SelectedIndex = index;
+                        listBox1.SelectedItem = selected;
                     }
                 }
                 index++;

@@ -166,5 +166,16 @@ namespace AnimeLibraryInfo
                 System.Diagnostics.Process.Start(SelectedEpisode.EpisodePath.FullName);
             }
         }
+
+        private void checkForUpdatesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UpdateWindow u = new UpdateWindow();
+            u.ShowDialog();
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Not implemented");
+        }
     }
 }

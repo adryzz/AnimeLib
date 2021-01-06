@@ -40,7 +40,7 @@ namespace AnimeLibraryInfo
             }
             else
             {
-                MessageBox.Show("Welcome to AnimeLibraryInfo!\nThis program helps you sort your local anime library!\nTo start, go to File > Index library");
+                MessageBox.Show("Welcome to AnimeLibraryInfo!\nThis program helps you sort your local anime library!\nTo start, go to File > Index library", "AnimeLibraryInfo");
             }
         }
 
@@ -109,7 +109,7 @@ namespace AnimeLibraryInfo
                     listBox1.Items.Add(s.Name);
                     if (s.Name.Equals(selected))
                     {
-                        listBox1.SelectedItem = selected;
+                        //listBox1.SelectedItem = selected;
                     }
                 }
                 index++;

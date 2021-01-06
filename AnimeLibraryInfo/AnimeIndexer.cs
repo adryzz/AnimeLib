@@ -58,108 +58,114 @@ namespace AnimeLibraryInfo
                 MessageBox.Show("The specified directory does not exist");
                 return;
             }
-
-            Library = new AnimeLibrary(new DirectoryInfo(path), false);
-            List<AnimeSeason> Seasons = new List<AnimeSeason>();
-            foreach (DirectoryInfo d in Library.LibraryPath.ToDirectoryInfo().EnumerateDirectories())
+            try
             {
-                long size = 0;
-                List<AnimeEpisode> episodes = new List<AnimeEpisode>();
-                foreach (FileInfo i in d.EnumerateFiles())
+                Library = new AnimeLibrary(new DirectoryInfo(path), false);
+                List<AnimeSeason> Seasons = new List<AnimeSeason>();
+                foreach (DirectoryInfo d in Library.LibraryPath.ToDirectoryInfo().EnumerateDirectories())
                 {
-                    listBox1.Invoke(new Log(() => { listBox1.Items.Add("Scanned " + i.FullName); listBox1.TopIndex = listBox1.Items.Count - 1; }));
-                    if (i.Extension.Equals(".mp4") || i.Extension.Equals(".mkv"))//check if it's a video file
+                    long size = 0;
+                    List<AnimeEpisode> episodes = new List<AnimeEpisode>();
+                    foreach (FileInfo i in d.EnumerateFiles())
                     {
-                        TagLib.File file = TagLib.File.Create(i.FullName);
-                        TagLib.Mpeg.VideoHeader header = new TagLib.Mpeg.VideoHeader();
-                        foreach (ICodec codec in file.Properties.Codecs)
+                        listBox1.Invoke(new Log(() => { listBox1.Items.Add("Scanned " + i.FullName); listBox1.TopIndex = listBox1.Items.Count - 1; }));
+                        if (i.Extension.Equals(".mp4") || i.Extension.Equals(".mkv"))//check if it's a video file
                         {
-                            if (codec is TagLib.Mpeg.VideoHeader)
+                            TagLib.File file = TagLib.File.Create(i.FullName);
+                            TagLib.Mpeg.VideoHeader header = new TagLib.Mpeg.VideoHeader();
+                            foreach (ICodec codec in file.Properties.Codecs)
                             {
-                                header = (TagLib.Mpeg.VideoHeader)codec;
+                                if (codec is TagLib.Mpeg.VideoHeader)
+                                {
+                                    header = (TagLib.Mpeg.VideoHeader)codec;
+                                }
                             }
+                            SerializableFileInfo info = new SerializableFileInfo(i.FullName);
+                            episodes.Add(new AnimeEpisode
+                            {
+                                EpisodePath = info,
+                                EpisodeInfo = header
+                            });
+                            size += info.Length;
                         }
-                        SerializableFileInfo info = new SerializableFileInfo(i.FullName);
-                        episodes.Add(new AnimeEpisode
-                        {
-                            EpisodePath = info,
-                            EpisodeInfo = header
-                        });
-                        size += info.Length;
                     }
-                }
-                //order episodes by number
-                //this is tricky but not that hard to do
-                string[] remove = { "144p", "240p", "360p", "480p", "720p", "1080p", "1440p", "2160p", "mp4" };
-                SortedDictionary<int, AnimeEpisode> episodes2 = new SortedDictionary<int, AnimeEpisode>();
-                foreach (AnimeEpisode e in episodes)
-                {
-                    string name = e.EpisodePath.Name;
-                    foreach (string s in remove)
+                    //order episodes by number
+                    //this is tricky but not that hard to do
+                    string[] remove = { "144p", "240p", "360p", "480p", "720p", "1080p", "1440p", "2160p", "mp4" };
+                    SortedDictionary<int, AnimeEpisode> episodes2 = new SortedDictionary<int, AnimeEpisode>();
+                    foreach (AnimeEpisode e in episodes)
                     {
-                        name = name.Replace(s, "");
+                        string name = e.EpisodePath.Name;
+                        foreach (string s in remove)
+                        {
+                            name = name.Replace(s, "");
+                        }
+                        episodes2.Add(int.Parse(String.Join("", name.Where(char.IsDigit))), e);
                     }
-                    episodes2.Add(int.Parse(String.Join("", name.Where(char.IsDigit))), e);
+                    episodes.Clear();
+                    episodes.AddRange(episodes2.Values);
+
+                    Seasons.Add(new AnimeSeason()
+                    {
+                        Episodes = episodes,
+                        SeasonPath = new SerializableDirectoryInfo(d.FullName),
+                        Size = size
+                    });
+                    Library.LibrarySize += size;
                 }
-                episodes.Clear();
-                episodes.AddRange(episodes2.Values);
 
-                Seasons.Add(new AnimeSeason()
+                //sort per series
+
+                //get all names
+                string[] names = new string[Seasons.Count];
+                for (int i = 0; i < Seasons.Count; i++)
                 {
-                    Episodes = episodes,
-                    SeasonPath = new SerializableDirectoryInfo(d.FullName),
-                    Size = size
-                });
-                Library.LibrarySize += size;
-            }
-
-            //sort per series
-
-            //get all names
-            string[] names = new string[Seasons.Count];
-            for (int i = 0; i < Seasons.Count; i++)
-            {
-                names[i] = Seasons[i].SeasonPath.Name;
-            }
-
-            //remove "OVA" from all names because it can hurt consistency
-            for (int i = 0; i < names.Length; i++)
-            {
-                names[i].Replace(" OVA", "");//remove with the space at the beginning
-            }
-
-            bool done = false;
-            int currentIndex = 0;
-            List<string> nameList = new List<string>(names);
-            List<AnimeSeason> seasons = Seasons;
-            while (!done)
-            {
-                Tuple<AnimeSeries, int> current = GenerateTree(names[currentIndex], nameList.ToArray(), seasons);
-                nameList.RemoveAt(0);
-                seasons.RemoveAt(0);
-                currentIndex += current.Item2;
-                Library.Library.Add(current.Item1);
-                if (currentIndex >= names.Length)
-                {
-                    done = true;
+                    names[i] = Seasons[i].SeasonPath.Name;
                 }
-            }
-            //remove empty animes
-            List<AnimeSeries> nodesToRemove = new List<AnimeSeries>();
-            foreach (AnimeSeries t in Library.Library)
-            {
-                if (t.Seasons.Count == 0)
-                {
-                    nodesToRemove.Add(t);
-                }
-            }
-            foreach (AnimeSeries t in nodesToRemove)
-            {
-                Library.Library.Remove(t);
-            }
 
-            IsOK = true;
-            Invoke(new Log(() => { MessageBox.Show("Done indexing!"); Close(); }));
+                //remove "OVA" from all names because it can hurt consistency
+                for (int i = 0; i < names.Length; i++)
+                {
+                    names[i].Replace(" OVA", "");//remove with the space at the beginning
+                }
+
+                bool done = false;
+                int currentIndex = 0;
+                List<string> nameList = new List<string>(names);
+                List<AnimeSeason> seasons = Seasons;
+                while (!done)
+                {
+                    Tuple<AnimeSeries, int> current = GenerateTree(names[currentIndex], nameList.ToArray(), seasons);
+                    nameList.RemoveAt(0);
+                    seasons.RemoveAt(0);
+                    currentIndex += current.Item2;
+                    Library.Library.Add(current.Item1);
+                    if (currentIndex >= names.Length)
+                    {
+                        done = true;
+                    }
+                }
+                //remove empty animes
+                List<AnimeSeries> nodesToRemove = new List<AnimeSeries>();
+                foreach (AnimeSeries t in Library.Library)
+                {
+                    if (t.Seasons.Count == 0)
+                    {
+                        nodesToRemove.Add(t);
+                    }
+                }
+                foreach (AnimeSeries t in nodesToRemove)
+                {
+                    Library.Library.Remove(t);
+                }
+
+                IsOK = true;
+                Invoke(new Log(() => { MessageBox.Show("Done indexing!", "AnimeLibraryInfo", MessageBoxButtons.OK, MessageBoxIcon.Information); Close(); }));
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show("The folder structure isn't set up correctly.\nCan't index library.", "AnimeLibraryInfo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         static Tuple<AnimeSeries, int> GenerateTree(string current, string[] names, List<AnimeSeason> seasons)

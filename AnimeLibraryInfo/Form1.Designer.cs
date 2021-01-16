@@ -32,6 +32,9 @@ namespace AnimeLibraryInfo
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.indexLibraryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -46,9 +49,10 @@ namespace AnimeLibraryInfo
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.markSelectedSeriesAsWatchedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.markSelectedSeasonAsWatchedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -61,6 +65,7 @@ namespace AnimeLibraryInfo
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.checkForUpdatesToolStripMenuItem,
+            this.preferencesToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -71,7 +76,9 @@ namespace AnimeLibraryInfo
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.indexLibraryToolStripMenuItem});
+            this.indexLibraryToolStripMenuItem,
+            this.markSelectedSeriesAsWatchedToolStripMenuItem,
+            this.markSelectedSeasonAsWatchedToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
@@ -79,9 +86,30 @@ namespace AnimeLibraryInfo
             // indexLibraryToolStripMenuItem
             // 
             this.indexLibraryToolStripMenuItem.Name = "indexLibraryToolStripMenuItem";
-            this.indexLibraryToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.indexLibraryToolStripMenuItem.Size = new System.Drawing.Size(248, 22);
             this.indexLibraryToolStripMenuItem.Text = "Index library...";
             this.indexLibraryToolStripMenuItem.Click += new System.EventHandler(this.indexLibraryToolStripMenuItem_Click);
+            // 
+            // checkForUpdatesToolStripMenuItem
+            // 
+            this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
+            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(118, 20);
+            this.checkForUpdatesToolStripMenuItem.Text = "Check For Updates";
+            this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdatesToolStripMenuItem_Click);
+            // 
+            // preferencesToolStripMenuItem
+            // 
+            this.preferencesToolStripMenuItem.Name = "preferencesToolStripMenuItem";
+            this.preferencesToolStripMenuItem.Size = new System.Drawing.Size(80, 20);
+            this.preferencesToolStripMenuItem.Text = "Preferences";
+            this.preferencesToolStripMenuItem.Click += new System.EventHandler(this.preferencesToolStripMenuItem_Click);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.aboutToolStripMenuItem.Text = "About...";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // groupBox1
             // 
@@ -165,11 +193,13 @@ namespace AnimeLibraryInfo
             // 
             // listBox2
             // 
+            this.listBox2.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.listBox2.FormattingEnabled = true;
             this.listBox2.Location = new System.Drawing.Point(10, 77);
             this.listBox2.Name = "listBox2";
             this.listBox2.Size = new System.Drawing.Size(359, 199);
             this.listBox2.TabIndex = 3;
+            this.listBox2.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.listBox2_DrawItem);
             this.listBox2.SelectedIndexChanged += new System.EventHandler(this.listBox2_SelectedIndexChanged);
             // 
             // label5
@@ -209,6 +239,7 @@ namespace AnimeLibraryInfo
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.checkBox1);
             this.groupBox4.Controls.Add(this.label6);
             this.groupBox4.Location = new System.Drawing.Point(630, 256);
             this.groupBox4.Name = "groupBox4";
@@ -216,6 +247,17 @@ namespace AnimeLibraryInfo
             this.groupBox4.TabIndex = 6;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Episode Info";
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(9, 114);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(70, 17);
+            this.checkBox1.TabIndex = 1;
+            this.checkBox1.Text = "Watched";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // label6
             // 
@@ -226,19 +268,19 @@ namespace AnimeLibraryInfo
             this.label6.Text = "Name:\r\nResolution: 0x0\r\nFrame Rate: 0 fps\r\nBitrate: 0 kbps\r\nSize: 0 byte\r\nDuratio" +
     "n:\r\nDescription:";
             // 
-            // checkForUpdatesToolStripMenuItem
+            // markSelectedSeriesAsWatchedToolStripMenuItem
             // 
-            this.checkForUpdatesToolStripMenuItem.Name = "checkForUpdatesToolStripMenuItem";
-            this.checkForUpdatesToolStripMenuItem.Size = new System.Drawing.Size(118, 20);
-            this.checkForUpdatesToolStripMenuItem.Text = "Check For Updates";
-            this.checkForUpdatesToolStripMenuItem.Click += new System.EventHandler(this.checkForUpdatesToolStripMenuItem_Click);
+            this.markSelectedSeriesAsWatchedToolStripMenuItem.Name = "markSelectedSeriesAsWatchedToolStripMenuItem";
+            this.markSelectedSeriesAsWatchedToolStripMenuItem.Size = new System.Drawing.Size(248, 22);
+            this.markSelectedSeriesAsWatchedToolStripMenuItem.Text = "Mark selected series as watched";
+            this.markSelectedSeriesAsWatchedToolStripMenuItem.Click += new System.EventHandler(this.markSelectedSeriesAsWatchedToolStripMenuItem_Click);
             // 
-            // aboutToolStripMenuItem
+            // markSelectedSeasonAsWatchedToolStripMenuItem
             // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
-            this.aboutToolStripMenuItem.Text = "About...";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            this.markSelectedSeasonAsWatchedToolStripMenuItem.Name = "markSelectedSeasonAsWatchedToolStripMenuItem";
+            this.markSelectedSeasonAsWatchedToolStripMenuItem.Size = new System.Drawing.Size(248, 22);
+            this.markSelectedSeasonAsWatchedToolStripMenuItem.Text = "Mark selected season as watched";
+            this.markSelectedSeasonAsWatchedToolStripMenuItem.Click += new System.EventHandler(this.markSelectedSeasonAsWatchedToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -266,6 +308,7 @@ namespace AnimeLibraryInfo
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -293,6 +336,10 @@ namespace AnimeLibraryInfo
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ToolStripMenuItem checkForUpdatesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem preferencesToolStripMenuItem;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.ToolStripMenuItem markSelectedSeriesAsWatchedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem markSelectedSeasonAsWatchedToolStripMenuItem;
     }
 }
 

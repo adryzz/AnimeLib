@@ -116,6 +116,7 @@ namespace AnimeLibraryInfo
         private void Dlclient_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
             Log("Download completed.");
+            DownloadCompleted = true;
         }
 
         void UpdateProgress(int value)

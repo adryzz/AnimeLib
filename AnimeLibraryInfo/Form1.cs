@@ -48,7 +48,7 @@ namespace AnimeLibraryInfo
         {
             AnimeIndexer indexer = new AnimeIndexer(Library);
             indexer.ShowDialog();
-            if (indexer.IsOK) 
+            if (indexer.IsOK)
             {
                 Library = indexer.Library;
                 File.WriteAllText("library.json", Library.ExportToJson(true));
@@ -72,7 +72,7 @@ namespace AnimeLibraryInfo
             {
                 series++;
 
-                foreach(AnimeSeason ss in s.Seasons)
+                foreach (AnimeSeason ss in s.Seasons)
                 {
                     videos += ss.Episodes.Count;
                 }
@@ -101,7 +101,7 @@ namespace AnimeLibraryInfo
             int index = 0;
             Searched.Clear();
             listBox1.Items.Clear();
-            foreach(AnimeSeries s in Library.Library)
+            foreach (AnimeSeries s in Library.Library)
             {
                 if (s.Name.ToLower().Contains(textBox1.Text.ToLower()))
                 {
@@ -123,7 +123,7 @@ namespace AnimeLibraryInfo
             {
                 SelectedSeries = Searched[listBox1.SelectedIndex];
                 long size = 0;
-                foreach(AnimeSeason s in SelectedSeries.Seasons)
+                foreach (AnimeSeason s in SelectedSeries.Seasons)
                 {
                     size += s.Size;
                     comboBox1.Items.Add(s.SeasonPath.Name);
@@ -139,7 +139,7 @@ namespace AnimeLibraryInfo
             if (comboBox1.SelectedIndex >= 0)
             {
                 SelectedSeason = SelectedSeries.Seasons[comboBox1.SelectedIndex];
-                foreach(AnimeEpisode ep in SelectedSeason.Episodes)
+                foreach (AnimeEpisode ep in SelectedSeason.Episodes)
                 {
                     listBox2.Items.Add(ep.EpisodePath.Name);
                 }
@@ -156,6 +156,7 @@ namespace AnimeLibraryInfo
             {
                 SelectedEpisode = SelectedSeason.Episodes[listBox2.SelectedIndex];
                 label6.Text = $"Name:{SelectedEpisode.EpisodePath.Name}\r\nResolution: {SelectedEpisode.EpisodeInfo.VideoWidth}x{SelectedEpisode.EpisodeInfo.VideoHeight}\r\nFrame rate: {SelectedEpisode.EpisodeInfo.VideoFrameRate} fps\r\nBitrate: {SelectedEpisode.EpisodeInfo.VideoBitrate} kbps\r\nSize: {Utils.BytesToString(SelectedEpisode.EpisodePath.Length)}\r\nDuration: {SelectedEpisode.EpisodeInfo.Duration}\r\nDescription: {SelectedEpisode.EpisodeInfo.Description}";
+                checkBox1.Checked = SelectedEpisode.Watched;
             }
         }
 
@@ -163,7 +164,10 @@ namespace AnimeLibraryInfo
         {
             if (SelectedEpisode.EpisodePath != null)
             {
+                SelectedEpisode.Watched = true;
+                checkBox1.Checked = true;
                 System.Diagnostics.Process.Start(SelectedEpisode.EpisodePath.FullName);
+
             }
         }
 
@@ -176,6 +180,96 @@ namespace AnimeLibraryInfo
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Not implemented");
+        }
+
+        private void preferencesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            SelectedEpisode.Watched = checkBox1.Checked;
+            for (int i = 0; i < Library.Library.Count; i++)
+            {
+                for (int j = 0; j < Library.Library[i].Seasons.Count; j++)
+                {
+                    for (int w = 0; w < Library.Library[i].Seasons[j].Episodes.Count; w++)
+                    {
+                        if (Library.Library[i].Seasons[j].Episodes[w].EpisodePath.FullName.Equals(SelectedEpisode.EpisodePath.FullName))
+                        {
+                            Library.Library[i].Seasons[j].Episodes[w] = SelectedEpisode;
+                        }
+                    }
+                }
+            }
+            File.WriteAllText("library.json", Library.ExportToJson(true));
+        }
+
+        private void markSelectedSeriesAsWatchedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < Library.Library.Count; i++)
+            {
+                if (Library.Library[i].Name.Equals(SelectedSeries.Name))
+                {
+                    for (int j = 0; j < Library.Library[i].Seasons.Count; j++)
+                    {
+                        for (int w = 0; w < Library.Library[i].Seasons[j].Episodes.Count; w++)
+                        {
+                            var v = Library.Library[i].Seasons[j].Episodes[w];
+                            v.Watched = true;
+                            Library.Library[i].Seasons[j].Episodes[w] = v;
+                        }
+                    }
+                }
+            }
+            File.WriteAllText("library.json", Library.ExportToJson(true));
+        }
+
+        private void markSelectedSeasonAsWatchedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < Library.Library.Count; i++)
+            {
+                for (int j = 0; j < Library.Library[i].Seasons.Count; j++)
+                {
+                    if (Library.Library[i].Seasons[j].SeasonPath.FullName.Equals(SelectedSeason.SeasonPath.FullName))
+                    {
+                        for (int w = 0; w < Library.Library[i].Seasons[j].Episodes.Count; w++)
+                        {
+                            var v = Library.Library[i].Seasons[j].Episodes[w];
+                            v.Watched = true;
+                            Library.Library[i].Seasons[j].Episodes[w] = v;
+                        }
+                    }
+                }
+            }
+            File.WriteAllText("library.json", Library.ExportToJson(true));
+        }
+
+        private void listBox2_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            e.DrawBackground();
+
+            Graphics g = e.Graphics;
+            if (e.State.HasFlag(DrawItemState.Selected))
+            {
+                g.FillRectangle(new SolidBrush(Color.FromArgb(0, 120, 215)), e.Bounds);
+            }
+            else
+            {
+                if (SelectedSeason.Episodes[e.Index].Watched)
+                {
+                    g.FillRectangle(new SolidBrush(Color.FromArgb(86, 199, 0)), e.Bounds);
+                }
+                else
+                {
+                    g.FillRectangle(new SolidBrush(Color.White), e.Bounds);
+                }
+            }
+            ListBox lb = (ListBox)sender;
+            g.DrawString(lb.Items[e.Index].ToString(), e.Font, new SolidBrush(Color.Black), new PointF(e.Bounds.X, e.Bounds.Y));
+
+            e.DrawFocusRectangle();
         }
     }
 }

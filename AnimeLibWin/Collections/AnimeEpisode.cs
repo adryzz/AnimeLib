@@ -11,5 +11,6 @@ namespace AnimeLibWin.Collections
     {
         public SerializableFileInfo EpisodePath;
         public VideoHeader EpisodeInfo;
+        public bool Watched;
     }
 }

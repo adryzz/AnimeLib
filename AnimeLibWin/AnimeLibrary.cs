@@ -17,7 +17,6 @@ namespace AnimeLibWin
 
         public AnimeLibrary()
         {
-
         }
 
         public AnimeLibrary(DirectoryInfo path, bool tryAutoGenerate)
@@ -25,7 +24,6 @@ namespace AnimeLibWin
             LibraryPath = new SerializableDirectoryInfo(path.FullName);
             Library = new List<AnimeSeries>();
             if (!tryAutoGenerate) return;
-
         }
 
         public string ExportToJson(bool indented)

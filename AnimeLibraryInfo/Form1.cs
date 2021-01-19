@@ -166,7 +166,6 @@ namespace AnimeLibraryInfo
                 SelectedEpisode.Watched = true;
                 checkBox1.Checked = true;
                 System.Diagnostics.Process.Start(SelectedEpisode.EpisodePath.FullName);
-
             }
         }
 

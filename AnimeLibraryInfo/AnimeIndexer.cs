@@ -30,6 +30,7 @@ namespace AnimeLibraryInfo
 
         private void AnimeIndexer_Load(object sender, EventArgs e)
         {
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -210,8 +211,8 @@ namespace AnimeLibraryInfo
             int lengthA = a.Length;
             int lengthB = b.Length;
             var distances = new int[lengthA + 1, lengthB + 1];
-            for (int i = 0; i <= lengthA; distances[i, 0] = i++)
-            for (int j = 0; j <= lengthB; distances[0, j] = j++)
+            for (int i = 0; i <= lengthA; distances[i, 0] = i++);
+            for (int j = 0; j <= lengthB; distances[0, j] = j++);
 
             for (int i = 1; i <= lengthA; i++)
                 for (int j = 1; j <= lengthB; j++)

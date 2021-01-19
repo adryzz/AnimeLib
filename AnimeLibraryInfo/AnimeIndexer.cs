@@ -30,7 +30,6 @@ namespace AnimeLibraryInfo
 
         private void AnimeIndexer_Load(object sender, EventArgs e)
         {
-
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -69,7 +68,7 @@ namespace AnimeLibraryInfo
                     foreach (FileInfo i in d.EnumerateFiles())
                     {
                         listBox1.Invoke(new Log(() => { listBox1.Items.Add("Scanned " + i.FullName); listBox1.TopIndex = listBox1.Items.Count - 1; }));
-                        if (i.Extension.Equals(".mp4") || i.Extension.Equals(".mkv"))//check if it's a video file
+                        if (i.Extension.Equals(".mp4") || i.Extension.Equals(".mkv")) //check if it's a video file
                         {
                             TagLib.File file = TagLib.File.Create(i.FullName);
                             TagLib.Mpeg.VideoHeader header = new TagLib.Mpeg.VideoHeader();
@@ -126,7 +125,7 @@ namespace AnimeLibraryInfo
                 //remove "OVA" from all names because it can hurt consistency
                 for (int i = 0; i < names.Length; i++)
                 {
-                    names[i].Replace(" OVA", "");//remove with the space at the beginning
+                    names[i].Replace(" OVA", ""); //remove with the space at the beginning
                 }
 
                 bool done = false;
@@ -173,7 +172,7 @@ namespace AnimeLibraryInfo
             //create first subnode
             AnimeSeries series = new AnimeSeries() { Name = current.Replace(" Season 1", "").Replace(" season 1", "").Replace(" 1", ""), Seasons = new List<AnimeSeason>() };
 
-            int max = names.Length;//this is the index of the last item processed so the one not added to the tree
+            int max = names.Length; //this is the index of the last item processed so the one not added to the tree
 
             //check if any of the names are at least 50% similiar to the first node
             for (int i = 0; i < names.Length; i++)
@@ -181,7 +180,7 @@ namespace AnimeLibraryInfo
                 string s = names[i];
                 int distance = CalcLevenshteinDistance(current, s);
                 float perc = 100f - ((distance / (float)s.Length) * 100f);
-                if (perc >= 50)//50%
+                if (perc >= 50) //50%
                 {
                     series.Seasons.Add(seasons[i]);
                 }
@@ -211,8 +210,8 @@ namespace AnimeLibraryInfo
             int lengthA = a.Length;
             int lengthB = b.Length;
             var distances = new int[lengthA + 1, lengthB + 1];
-            for (int i = 0; i <= lengthA; distances[i, 0] = i++) ;
-            for (int j = 0; j <= lengthB; distances[0, j] = j++) ;
+            for (int i = 0; i <= lengthA; distances[i, 0] = i++)
+            for (int j = 0; j <= lengthB; distances[0, j] = j++)
 
             for (int i = 1; i <= lengthA; i++)
                 for (int j = 1; j <= lengthB; j++)

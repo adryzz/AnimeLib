@@ -19,12 +19,14 @@ namespace AnimeLibraryInfo
     {
         public bool IsOK = false;
         public AnimeLibrary Library;
+        public AnimeLibrary OldLibrary;
         public AnimeIndexer(AnimeLibrary existing)
         {
             InitializeComponent();
             if (existing != null)
             {
                 textBox1.Text = existing.LibraryPath.FullName;
+                OldLibrary = existing;
             }
         }
 
@@ -156,6 +158,35 @@ namespace AnimeLibraryInfo
                 foreach (AnimeSeries t in nodesToRemove)
                 {
                     Library.Library.Remove(t);
+                }
+
+                //mark episodes as completed
+                if (OldLibrary != null)
+                {
+                    foreach(AnimeSeries series in OldLibrary.Library)
+                    {
+                        foreach(AnimeSeason season in series.Seasons)
+                        {
+                            foreach(AnimeEpisode e in season.Episodes)
+                            {
+                                for (int i = 0; i < Library.Library.Count; i++)
+                                {
+                                    for (int j = 0; j < Library.Library[i].Seasons.Count; j++)
+                                    {
+                                        for (int w = 0; w < Library.Library[i].Seasons[j].Episodes.Count; w++)
+                                        {
+                                            if (Library.Library[i].Seasons[j].Episodes[w].EpisodePath.FullName.Equals(e.EpisodePath.FullName))
+                                            {
+                                                AnimeEpisode ep = Library.Library[i].Seasons[j].Episodes[w];
+                                                ep.Watched = e.Watched;
+                                                Library.Library[i].Seasons[j].Episodes[w] = ep;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
 
                 IsOK = true;

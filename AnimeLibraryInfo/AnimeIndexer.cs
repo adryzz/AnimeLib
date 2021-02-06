@@ -179,6 +179,7 @@ namespace AnimeLibraryInfo
                                             {
                                                 AnimeEpisode ep = Library.Library[i].Seasons[j].Episodes[w];
                                                 ep.Watched = e.Watched;
+                                                ep.EpisodeNumber = w + 1;
                                                 Library.Library[i].Seasons[j].Episodes[w] = ep;
                                             }
                                         }

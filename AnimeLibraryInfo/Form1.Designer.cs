@@ -29,9 +29,13 @@ namespace AnimeLibraryInfo
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.indexLibraryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.markSelectedSeriesAsWatchedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.markSelectedSeasonAsWatchedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkForUpdatesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.preferencesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,8 +55,7 @@ namespace AnimeLibraryInfo
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.markSelectedSeriesAsWatchedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.markSelectedSeasonAsWatchedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.discordTimer = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -89,6 +92,20 @@ namespace AnimeLibraryInfo
             this.indexLibraryToolStripMenuItem.Size = new System.Drawing.Size(248, 22);
             this.indexLibraryToolStripMenuItem.Text = "Index library...";
             this.indexLibraryToolStripMenuItem.Click += new System.EventHandler(this.indexLibraryToolStripMenuItem_Click);
+            // 
+            // markSelectedSeriesAsWatchedToolStripMenuItem
+            // 
+            this.markSelectedSeriesAsWatchedToolStripMenuItem.Name = "markSelectedSeriesAsWatchedToolStripMenuItem";
+            this.markSelectedSeriesAsWatchedToolStripMenuItem.Size = new System.Drawing.Size(248, 22);
+            this.markSelectedSeriesAsWatchedToolStripMenuItem.Text = "Mark selected series as watched";
+            this.markSelectedSeriesAsWatchedToolStripMenuItem.Click += new System.EventHandler(this.markSelectedSeriesAsWatchedToolStripMenuItem_Click);
+            // 
+            // markSelectedSeasonAsWatchedToolStripMenuItem
+            // 
+            this.markSelectedSeasonAsWatchedToolStripMenuItem.Name = "markSelectedSeasonAsWatchedToolStripMenuItem";
+            this.markSelectedSeasonAsWatchedToolStripMenuItem.Size = new System.Drawing.Size(248, 22);
+            this.markSelectedSeasonAsWatchedToolStripMenuItem.Text = "Mark selected season as watched";
+            this.markSelectedSeasonAsWatchedToolStripMenuItem.Click += new System.EventHandler(this.markSelectedSeasonAsWatchedToolStripMenuItem_Click);
             // 
             // checkForUpdatesToolStripMenuItem
             // 
@@ -268,19 +285,11 @@ namespace AnimeLibraryInfo
             this.label6.Text = "Name:\r\nResolution: 0x0\r\nFrame Rate: 0 fps\r\nBitrate: 0 kbps\r\nSize: 0 byte\r\nDuratio" +
     "n:\r\nDescription:";
             // 
-            // markSelectedSeriesAsWatchedToolStripMenuItem
+            // discordTimer
             // 
-            this.markSelectedSeriesAsWatchedToolStripMenuItem.Name = "markSelectedSeriesAsWatchedToolStripMenuItem";
-            this.markSelectedSeriesAsWatchedToolStripMenuItem.Size = new System.Drawing.Size(248, 22);
-            this.markSelectedSeriesAsWatchedToolStripMenuItem.Text = "Mark selected series as watched";
-            this.markSelectedSeriesAsWatchedToolStripMenuItem.Click += new System.EventHandler(this.markSelectedSeriesAsWatchedToolStripMenuItem_Click);
-            // 
-            // markSelectedSeasonAsWatchedToolStripMenuItem
-            // 
-            this.markSelectedSeasonAsWatchedToolStripMenuItem.Name = "markSelectedSeasonAsWatchedToolStripMenuItem";
-            this.markSelectedSeasonAsWatchedToolStripMenuItem.Size = new System.Drawing.Size(248, 22);
-            this.markSelectedSeasonAsWatchedToolStripMenuItem.Text = "Mark selected season as watched";
-            this.markSelectedSeasonAsWatchedToolStripMenuItem.Click += new System.EventHandler(this.markSelectedSeasonAsWatchedToolStripMenuItem_Click);
+            this.discordTimer.Enabled = true;
+            this.discordTimer.Interval = 2000;
+            this.discordTimer.Tick += new System.EventHandler(this.discordTimer_Tick);
             // 
             // Form1
             // 
@@ -295,6 +304,7 @@ namespace AnimeLibraryInfo
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "Form1";
@@ -340,6 +350,7 @@ namespace AnimeLibraryInfo
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.ToolStripMenuItem markSelectedSeriesAsWatchedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem markSelectedSeasonAsWatchedToolStripMenuItem;
+        private System.Windows.Forms.Timer discordTimer;
     }
 }
 

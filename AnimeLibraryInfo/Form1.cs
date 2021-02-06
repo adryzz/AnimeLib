@@ -8,8 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Diagnostics;
 using AnimeLibWin;
 using AnimeLibWin.Collections;
+using DiscordRPC;
 
 namespace AnimeLibraryInfo
 {
@@ -20,6 +22,9 @@ namespace AnimeLibraryInfo
         AnimeSeries SelectedSeries;
         AnimeSeason SelectedSeason;
         AnimeEpisode SelectedEpisode;
+        DiscordRpcClient Client;
+        Process Player;
+        DateTime StartTime;
         public Form1()
         {
             InitializeComponent();
@@ -27,6 +32,8 @@ namespace AnimeLibraryInfo
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            Client = new DiscordRpcClient("807693622836723803");
+            Client.Initialize();
         }
 
         private void Form1_Shown(object sender, EventArgs e)
@@ -165,7 +172,66 @@ namespace AnimeLibraryInfo
             {
                 SelectedEpisode.Watched = true;
                 checkBox1.Checked = true;
-                System.Diagnostics.Process.Start(SelectedEpisode.EpisodePath.FullName);
+                Player = Process.Start(SelectedEpisode.EpisodePath.FullName);
+                StartRichPresence();
+            }
+        }
+
+        private void discordTimer_Tick(object sender, EventArgs e)
+        {
+            UpdateRichPresence();
+        }
+
+        private void StartRichPresence()
+        {
+            StartTime = DateTime.UtcNow;
+            Client.SetPresence(new RichPresence()
+            {
+                Details = SelectedSeason.SeasonPath.Name,
+                State = "Progress",
+                Assets = new Assets { LargeImageKey = "yukkogun", SmallImageKey = "yukkogun" },
+                Timestamps = new Timestamps()
+                {
+                    Start = StartTime
+                },
+                Party = new Party
+                {
+                    ID = "Anime",
+                    Privacy = Party.PrivacySetting.Private,
+                    Max = SelectedSeason.Episodes.Count,
+                    Size = SelectedEpisode.EpisodeNumber
+                }
+            });
+        }
+
+        private void UpdateRichPresence()
+        {
+            if (Player != null)
+            {
+                if (!Player.HasExited)
+                {
+                    Client.SetPresence(new RichPresence()
+                    {
+                        Details = SelectedSeason.SeasonPath.Name,
+                        State = "Progress",
+                        Assets = new Assets { LargeImageKey = "yukkogun", SmallImageKey = "yukkogun" },
+                        Timestamps = new Timestamps()
+                        {
+                            Start = StartTime
+                        },
+                        Party = new Party
+                        {
+                            ID = "Anime",
+                            Privacy = Party.PrivacySetting.Private,
+                            Max = SelectedSeason.Episodes.Count,
+                            Size = SelectedEpisode.EpisodeNumber
+                        }
+                    });
+                }
+                else
+                {
+                    Client.ClearPresence();
+                }
             }
         }
 

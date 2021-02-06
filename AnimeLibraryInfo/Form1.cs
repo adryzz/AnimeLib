@@ -25,6 +25,8 @@ namespace AnimeLibraryInfo
         DiscordRpcClient Client;
         Process Player;
         DateTime StartTime;
+        int Seconds = 0;
+        Random IconRandomizer = new Random();
         public Form1()
         {
             InitializeComponent();
@@ -189,7 +191,7 @@ namespace AnimeLibraryInfo
             {
                 Details = SelectedSeason.SeasonPath.Name,
                 State = "Progress",
-                Assets = new Assets { LargeImageKey = "yukkogun", SmallImageKey = "yukkogun" },
+                Assets = new Assets { LargeImageKey = IconRandomizer.Next(1, 15).ToString(), SmallImageKey = "0" },
                 Timestamps = new Timestamps()
                 {
                     Start = StartTime
@@ -210,23 +212,12 @@ namespace AnimeLibraryInfo
             {
                 if (!Player.HasExited)
                 {
-                    Client.SetPresence(new RichPresence()
+                    Seconds += 2;
+                    if (Seconds >= 180)
                     {
-                        Details = SelectedSeason.SeasonPath.Name,
-                        State = "Progress",
-                        Assets = new Assets { LargeImageKey = "yukkogun", SmallImageKey = "yukkogun" },
-                        Timestamps = new Timestamps()
-                        {
-                            Start = StartTime
-                        },
-                        Party = new Party
-                        {
-                            ID = "Anime",
-                            Privacy = Party.PrivacySetting.Private,
-                            Max = SelectedSeason.Episodes.Count,
-                            Size = SelectedEpisode.EpisodeNumber
-                        }
-                    });
+                        Client.UpdateLargeAsset(IconRandomizer.Next(1, 15).ToString());
+                        Seconds = 0;
+                    }
                 }
                 else
                 {

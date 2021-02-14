@@ -1,4 +1,6 @@
 # AnimeLib
+[![CodeFactor](https://www.codefactor.io/repository/github/adryzz/animelib/badge)](https://www.codefactor.io/repository/github/adryzz/animelib)
+
 Anime library indexing program
 helps you manage your local anime library easily.
 
